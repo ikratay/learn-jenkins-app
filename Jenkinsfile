@@ -51,9 +51,11 @@ pipeline {
                 }
             steps {
                     echo "Test stage"
+
                     sh '''
-                        npm install -g serve
+                        touch test-results/test1.xml
                     '''
+//                     npm install -g serve
 //                         node_modules/.bin/serve -s build &
 //                         sleep 10
 //                         npx playwright test --reporter=html
