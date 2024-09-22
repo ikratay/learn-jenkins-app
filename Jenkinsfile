@@ -2,6 +2,7 @@ pipeline {
     agent any
 
     stages {
+        /*
         stage('Build') {
         // comment
             agent {
@@ -10,11 +11,6 @@ pipeline {
                     reuseNode true
                     }
                 }
-        /*
-        commentnpm run
-        ssssssss
-        test
-        */
             steps {
                 sh '''
                     ls -la
@@ -25,41 +21,46 @@ pipeline {
                     ls -la
                 '''
             }
-        }
-        stage('Test') {
-            agent {
-                docker{
-                    image 'node:18-alpine'
-                    reuseNode true
-                    }
-                }
-            steps {
-                    echo "Test stage"
-                    sh '''
-                        test -f build/index.html
-                        npm test
-                    '''
-            }
-        }
-        stage('Test E2E') {
-            agent {
-                docker{
-                    image 'mcr.microsoft.com/playwright:v1.47.2-noble'
-                    reuseNode true
-//                     args '-u root:root'
-                    }
-                }
-            steps {
-                    echo "Test stage"
 
-                    sh '''
-                        touch test-results/test1.xml
-                    '''
-//                     npm install -g serve
-//                         node_modules/.bin/serve -s build &
-//                         sleep 10
-//                         npx playwright test --reporter=html
-            }
+        }*/
+        stage('All tests'){
+            parallel {
+                stage('Test') {
+                    agent {
+                        docker{
+                            image 'node:18-alpine'
+                            reuseNode true
+                            }
+                        }
+                    steps {
+                            echo "Test stage"
+                            sh '''
+                                test -f build/index.html
+                                npm test --reporter=html
+                            '''
+                    }
+                }
+                stage('Test E2E') {
+                    agent {
+                        docker{
+                            image 'mcr.microsoft.com/playwright:v1.47.2-noble'
+                            reuseNode true
+        //                     args '-u root:root'
+                            }
+                        }
+                    steps {
+                            echo "Test stage"
+
+                            sh '''
+                                touch test-results/test1.xml
+                            '''
+        //                     npm install -g serve
+        //                         node_modules/.bin/serve -s build &
+        //                         sleep 10
+        //                         npx playwright test --reporter=html
+                    }
+                }
+             }
         }
     }
     post {
