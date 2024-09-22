@@ -3,12 +3,18 @@ pipeline {
 
     stages {
         stage('Build') {
+        // comment
             agent {
                 docker{
                     image 'node:18-alpine'
                     reuseNode true
                     }
                 }
+        /*
+        comment
+        ssssssss
+        test
+        */
             steps {
                 sh '''
                     ls -la
