@@ -37,6 +37,7 @@ pipeline {
                             sh '''
                                 test -f build/index.html
                                 npm test --reporter=html
+                                touch test-results/test2.xml
                             '''
                     }
                 }
